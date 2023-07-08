@@ -3,3 +3,5 @@ streamlit==1.24.0
 PIL==9.0.0
 pandas==1.1.3
 numpy==1.23.5
+-f https://data.pyg.org/whl/torch-2.0.1+cpu.html
+torch-scatter
