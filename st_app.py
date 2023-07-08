@@ -71,7 +71,7 @@ class StableDiffusionLoader:
         """
         self.prompt = prompt
         self.pretrain_pipe = pretrain_pipe
-        self.device = "cuda" if torch.cuda.is_available() else "mps"
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
 #         if self.device == 'cpu':
 #             raise MemoryError('GPU need for inference')
