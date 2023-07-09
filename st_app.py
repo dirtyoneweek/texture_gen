@@ -95,13 +95,18 @@ class StableDiffusionLoader:
                 boolean that defaults to False, otherwise message printed
         """
 
+
         pipe = StableDiffusionPipeline.from_pretrained(
             self.pretrain_pipe, 
-#             revision="fp16", 
-#             torch_dtype=torch.float16, 
-            use_auth_token=use_token
+            revision="fp16", 
+            torch_dtype=torch.float16, 
+            use_auth_token=use_token,
+            safety_checker = None
+
             )
         pipe = pipe.to(self.device)
+        pipe.enable_attention_slicing()
+
         image = pipe(prompt).images[0]
         image.save(save_location)
         if verbose: 
@@ -115,6 +120,19 @@ class StableDiffusionLoader:
         return len(self.prompt)
 
 if __name__ == '__main__':
+
+
+    def patch_conv(cls):
+        init = cls.__init__
+        def __init__(self, *args, **kwargs):
+            if 'padding_mode' not in kwargs:
+                kwargs['padding_mode'] = 'circular'
+            return init(self, *args, **kwargs)
+        cls.__init__ = __init__
+
+    patch_conv(torch.nn.Conv2d)
+
+
    
     SAVE_LOCATION = 'prompt.jpg'
     # Create the page title 
