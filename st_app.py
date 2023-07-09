@@ -99,7 +99,7 @@ class StableDiffusionLoader:
         pipe = StableDiffusionPipeline.from_pretrained(
             self.pretrain_pipe, 
             # revision="fp16", 
-            torch_dtype=torch.float16, 
+            # torch_dtype=torch.float16, 
             use_auth_token=use_token,
             safety_checker = None
 
